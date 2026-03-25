@@ -6,6 +6,9 @@ import PendingApprovalPage from './pages/PendingApprovalPage';
 import EventsPage from './pages/EventsPage';
 import EventDetailsPage from './pages/EventDetailsPage';
 import AdminEventFormPage from './pages/AdminEventFormPage';
+import {ApprovedRoute} from './components/ApprovedRoute';
+import {ProtectedRoute} from './components/ProtectedRoute';
+import {AdminRoute} from './components/AdminRoute';
 
 function App() {
 
@@ -14,11 +17,44 @@ function App() {
 			<Route path="/" element={<MainPage />} />
 			<Route path="/login" element={<LoginPage />} />
 			<Route path="/signup" element={<SignupPage />} />
-			<Route path="/pending" element={<PendingApprovalPage />} />
-			<Route path="/events" element={<EventsPage />} />
-			<Route path="/events/:id" element={<EventDetailsPage />} />
-			<Route path="/admin/events/new" element={<AdminEventFormPage />} />
-			<Route path="/admin/events/:id/edit" element={<AdminEventFormPage />} />
+			<Route
+				path="/pending"
+				element={
+					<ProtectedRoute>
+						<PendingApprovalPage />
+					</ProtectedRoute>
+				}
+			/>
+			<Route
+				path="/events"
+				element={
+					<ApprovedRoute>
+						<EventsPage />
+					</ApprovedRoute>
+				} />
+			<Route
+				path="/events/:id"
+				element={
+					<ApprovedRoute>
+						<EventDetailsPage />
+					</ApprovedRoute>
+				} />
+			<Route
+				path="/admin/events/new"
+				element={
+					<AdminRoute>
+						<AdminEventFormPage />
+					</AdminRoute>
+				}
+			/>
+			<Route
+				path="/admin/events/:id/edit"
+				element={
+					<AdminRoute>
+						<AdminEventFormPage />
+					</AdminRoute>
+				}
+			/>
 			<Route path="*" element={<Navigate to="/login" replace />} />
 		</Routes>
 	);
