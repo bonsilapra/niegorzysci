@@ -3,7 +3,7 @@ import {useAuth} from '../context/AppContext';
 
 export const Navbar = () => {
 	const navigate = useNavigate();
-	const {signOut, isAdmin, profile, isLoggedIn} = useAuth();
+	const {signOut, isAdmin, profile} = useAuth();
 
 	const handleSignout = async() => {
 		try {
@@ -21,7 +21,7 @@ export const Navbar = () => {
 		].join(' ');
 
 	return (
-		<header className={!isLoggedIn && 'hidden'}>
+		<header className="bg-primary">
 			<nav className="flex items-center gap-2">
 				<NavLink to="/events" className={navLinkClassName}>
 					Rajdy
