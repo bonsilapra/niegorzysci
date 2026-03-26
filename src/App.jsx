@@ -9,14 +9,36 @@ import AdminEventFormPage from './pages/AdminEventFormPage';
 import {ApprovedRoute} from './components/ApprovedRoute';
 import {ProtectedRoute} from './components/ProtectedRoute';
 import {AdminRoute} from './components/AdminRoute';
+import {RedirectWhenUser} from './components/RedirectWhenUser';
 
 function App() {
 
 	return (
 		<Routes>
-			<Route path="/" element={<MainPage />} />
-			<Route path="/login" element={<LoginPage />} />
-			<Route path="/signup" element={<SignupPage />} />
+			<Route
+				path="/"
+				element={
+					<RedirectWhenUser>
+						<MainPage />
+					</RedirectWhenUser>
+				}
+			/>
+			<Route
+				path="/login"
+				element={
+					<RedirectWhenUser>
+						<LoginPage />
+					</RedirectWhenUser>
+				}
+			/>
+			<Route
+				path="/signup"
+				element={
+					<RedirectWhenUser>
+						<SignupPage />
+					</RedirectWhenUser>
+				}
+			/>
 			<Route
 				path="/pending"
 				element={
