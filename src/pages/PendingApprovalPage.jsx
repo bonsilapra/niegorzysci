@@ -1,6 +1,5 @@
 import {useNavigate} from 'react-router';
 import {useAuth} from '../context/AppContext';
-import {Logout} from '../components/Logout';
 
 export default function PendingApprovalPage() {
 	const {refreshProfile, profile} = useAuth();
@@ -24,7 +23,6 @@ export default function PendingApprovalPage() {
 					Odśwież
 				</button>
 			</div>
-			<Logout />
 		</div>
 	);
 }
