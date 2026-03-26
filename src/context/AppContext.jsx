@@ -62,6 +62,7 @@ export function AuthProvider({children}) {
 				return;
 			}
 
+			setProfile(null);
 			setIsProfileReady(false);
 			await loadProfile(session.user.id);
 		};
@@ -110,20 +111,21 @@ export function AuthProvider({children}) {
 		};
 	}, []);
 
+	const isReady = isAuthReady && (!user || isProfileReady);
+
 	const value = useMemo(() => {
 		return {
 			session,
 			user,
 			profile,
-			isAuthReady,
-			isProfileReady,
+			isReady,
 			isLoggedIn: !!user,
 			isAdmin: profile?.role === 'admin',
 			isApproved: profile?.approval_status === 'approved',
 			refreshProfile,
 			signOut,
 		};
-	}, [session, user, profile, isAuthReady, isProfileReady]);
+	}, [session, user, profile, isAuthReady, isProfileReady, isReady]);
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
