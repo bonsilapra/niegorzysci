@@ -1,19 +1,30 @@
 import {useState} from 'react';
 import {useNavigate} from 'react-router';
 import {supabase} from '../lib/supabase';
+import {SubmitButton} from '../components/Buttons';
 
 export default function LoginPage() {
 	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState(false);
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
+	const [form, setForm] = useState({
+		email: '',
+		password: '',
+	});
+
+	const handleChange = (event) => {
+		const {name, value} = event.target;
+		setForm((prev) => ({
+			...prev,
+			[name]: value,
+		}));
+	};
 
 	const handleLogin = async(event) => {
 		event.preventDefault();
 		setIsLoading(true);
 		const {error} = await supabase.auth.signInWithPassword({
-			email,
-			password,
+			email: form.email,
+			password: form.password,
 		});
 		if (error) {
 			alert(error.error_description || error.message);
@@ -23,38 +34,35 @@ export default function LoginPage() {
 	};
 
 	return (
-		<div className="min-h-screen flex items-center justify-center bg-slate-100 p-6">
-			<div className="w-full max-w-md rounded-2xl bg-white p-8 shadow">
-				<h1 className="text-2xl font-bold">Zaloguj się</h1>
-				<form className="flex flex-col" onSubmit={handleLogin}>
-					<label htmlFor="email">Email:</label>
-					<input
-						id="email"
-						type="email"
-						placeholder="Twój email"
-						value={email}
-						required={true}
-						onChange={(e) => setEmail(e.target.value)}
-					/>
-					<label htmlFor="password">Hasło:</label>
-					<input
-						id="password"
-						type="password"
-						placeholder="************"
-						value={password}
-						required={true}
-						onChange={(e) => setPassword(e.target.value)}
-					/>
-
-					<button
-						disabled={isLoading}
-					>
-						{isLoading
-							? <span>Ładowanie</span>
-							: <span>Potwierdź</span>}
-					</button>
-				</form>
-			</div>
-		</div>
+		<>
+			<h1 className="text-2xl font-bold pb-4">Zaloguj się</h1>
+			<form className="flex flex-col" onSubmit={handleLogin}>
+				<label htmlFor="email">Email:</label>
+				<input
+					id="email"
+					type="email"
+					name="email"
+					placeholder="Twój email"
+					value={form.email}
+					required={true}
+					onChange={handleChange}
+				/>
+				<label htmlFor="password">Hasło:</label>
+				<input
+					id="password"
+					type="password"
+					name="password"
+					placeholder="************"
+					value={form.password}
+					required={true}
+					onChange={handleChange}
+				/>
+				<SubmitButton
+					content="Potwierdź"
+					isDisabled={isLoading}
+					isLoading={isLoading}
+				/>
+			</form>
+		</>
 	);
 }
