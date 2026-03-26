@@ -7,7 +7,9 @@ export function AuthProvider({children}) {
 	const [session, setSession] = useState(null);
 	const [user, setUser] = useState(null);
 	const [profile, setProfile] = useState(null);
-	const [isLoading, setIsLoading] = useState(true);
+
+	const [isAuthReady, setIsAuthReady] = useState(false);
+	const [isProfileReady, setIsProfileReady] = useState(false);
 
 	const loadProfile = async(userId) => {
 		const {data, error} = await supabase
@@ -19,16 +21,19 @@ export function AuthProvider({children}) {
 		if (error) {
 			console.error('Błąd podczas pobierania profilu:', error.message);
 			setProfile(null);
+			setIsProfileReady(true);
 
 			return null;
 		}
-		setProfile(data);
+		setProfile(data ?? null);
+		setIsProfileReady(true);
 
-		return data;
+		return data ?? null;
 	};
 
 	const refreshProfile = async() => {
 		if (!user?.id) return null;
+		setIsProfileReady(false);
 
 		return loadProfile(user.id);
 	};
@@ -43,66 +48,64 @@ export function AuthProvider({children}) {
 	};
 
 	useEffect(() => {
-		let isMounted = true;
+		let active = true;
 
-		const initializeAuth = async() => {
-			setIsLoading(true);
+		const applySession = async(session) => {
+			if (!active) return;
 
-			const {
-				data: {session},
-				error,
-			} = await supabase.auth.getSession();
-
-			if (!isMounted) return;
-
-			if (error) {
-				console.error('Błąd podczas pobierania sesji:', error.message);
-				setSession(null);
-				setUser(null);
-				setProfile(null);
-				setIsLoading(false);
-
-				return;
-			}
-
-			setSession(session);
-			setUser(session?.user ?? null);
-
-			if (session?.user) {
-				await loadProfile(session.user.id);
-			} else {
-				setProfile(null);
-			}
-
-			if (isMounted) {
-				setIsLoading(false);
-			}
-		};
-
-		initializeAuth();
-
-		const {data: {subscription}} = supabase.auth.onAuthStateChange((event, session) => {
 			setSession(session);
 			setUser(session?.user ?? null);
 
 			if (!session?.user) {
 				setProfile(null);
-				setIsLoading(false);
-
+				setIsProfileReady(true);
 				return;
 			}
 
-			queueMicrotask(async() => {
-				await loadProfile(session.user.id);
+			setIsProfileReady(false);
+			await loadProfile(session.user.id);
+		};
 
-				if (isMounted) {
-					setIsLoading(false);
+		const init = async() => {
+			try {
+				const {
+					data: {session},
+					error,
+				} = await supabase.auth.getSession();
+
+				if (!active) return;
+
+				if (error) {
+					console.error('Błąd podczas pobierania sesji:', error.message);
+					setSession(null);
+					setUser(null);
+					setProfile(null);
+					setIsProfileReady(false);
+
+					return;
 				}
+
+				await applySession(session);
+			} finally {
+				if (active) {
+					setIsAuthReady(true);
+				}
+			}
+		};
+
+		init();
+
+		const {data: {subscription}} = supabase.auth.onAuthStateChange((_event, session) => {
+			if (!active) return;
+
+			setIsAuthReady(true);
+			queueMicrotask(async() => {
+				await applySession(session);
 			});
 		});
 
 		return () => {
-			isMounted = false;
+			active = false;
 			subscription.unsubscribe();
 		};
 	}, []);
@@ -112,14 +115,15 @@ export function AuthProvider({children}) {
 			session,
 			user,
 			profile,
-			isLoading,
+			isAuthReady,
+			isProfileReady,
 			isLoggedIn: !!user,
 			isAdmin: profile?.role === 'admin',
 			isApproved: profile?.approval_status === 'approved',
 			refreshProfile,
 			signOut,
 		};
-	}, [session, user, profile, isLoading]);
+	}, [session, user, profile, isAuthReady, isProfileReady]);
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

@@ -2,14 +2,18 @@ import {Navigate} from 'react-router';
 import {useAuth} from '../context/AppContext';
 
 export const ApprovedRoute = ({children}) => {
-	const {user, profile, isLoading} = useAuth();
+	const {user, profile, isProfileReady, isAuthReady} = useAuth();
 
-	if (isLoading) {
+	if (!isAuthReady) {
 		return <div className="p-6">Ładowanie...</div>;
 	}
 
 	if (!user) {
 		return <Navigate to="/login" replace />;
+	}
+
+	if (!isProfileReady) {
+		return <div className="p-6">Ładowanie profilu...</div>;
 	}
 
 	if (!profile) {
