@@ -33,6 +33,10 @@ export default function LoginPage() {
 		navigate('/events');
 	};
 
+	const isSubmitDisabled = () =>
+		isLoading ||
+		form.email === '' || form.password === '';
+
 	return (
 		<>
 			<h1 className="text-2xl font-bold pb-4">Zaloguj się</h1>
@@ -59,7 +63,7 @@ export default function LoginPage() {
 				/>
 				<SubmitButton
 					content="Potwierdź"
-					isDisabled={isLoading}
+					isDisabled={isSubmitDisabled()}
 					isLoading={isLoading}
 				/>
 			</form>
