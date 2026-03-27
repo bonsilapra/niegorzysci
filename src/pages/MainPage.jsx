@@ -16,6 +16,7 @@ export default function MainPage() {
 			<NavButton
 				content="Zarejestruj się"
 				path="/signup"
+				type="secondary"
 			/>
 		</>
 	);
