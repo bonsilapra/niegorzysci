@@ -1,6 +1,8 @@
 import {useState} from 'react';
 import {useNavigate} from 'react-router';
 import {supabase} from '../lib/supabase';
+import {UserInput} from './Inputs';
+import {SubmitButton} from './Buttons';
 
 export const ConfirmEmail = ({email}) => {
 	const navigate = useNavigate();
@@ -26,24 +28,24 @@ export const ConfirmEmail = ({email}) => {
 
 	return (
 		<div>
-			<h1 className="text-2xl font-bold">Wprowadź kod z emaila</h1>
+			<h2 className="text-xl font-bold mt-10 mb-4">Wprowadź kod z emaila</h2>
 			<form className="flex flex-col" onSubmit={handleConfirm}>
-				<label htmlFor="email">Kod:</label>
-				<input
+				<UserInput
+					label="Kod:"
 					id="kod"
-					type="text"
+					name="kod"
 					placeholder="12345678"
 					value={confirmEmailCode}
 					required={true}
 					onChange={(e) => setConfirmEmailCode(e.target.value)}
+					isDisabled={isLoading}
+					cssClass="mb-10!"
 				/>
-				<button
-					disabled={isLoading}
-				>
-					{isLoading
-						? <span>Ładowanie</span>
-						: <span>Potwierdź</span>}
-				</button>
+				<SubmitButton
+					content="Potwierdź"
+					isDisabled={isLoading}
+					isLoading={isLoading}
+				/>
 			</form>
 		</div>
 	);
