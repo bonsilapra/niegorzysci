@@ -12,6 +12,8 @@ const animationSecondaryClass = 'from-secondary-400 to-secondary-300 hover:from-
 
 const disabledPrimaryClass = 'bg-primary-100 text-primary-300';
 
+const simpleClass = 'self-center flex justify-center items-center md:w-3/4 w-full h-8 text-primary-600 mt-5 hover:underline hover:decoration-primary-400';
+
 export const NavButton = ({content, path, cssClass, type = 'primary'}) => {
 
 	return (
@@ -34,6 +36,24 @@ export const NavButton = ({content, path, cssClass, type = 'primary'}) => {
 	);
 };
 
+export const NavButtonSimple = ({content = 'Wstecz', path, cssClass}) => {
+
+	return (
+		<NavLink
+			className={cx(
+				simpleClass,
+				cssClass,
+			)}
+			to={path}
+		>
+			<p className="mb-0">
+				{content}
+			</p>
+		</NavLink>
+	);
+};
+
+
 export const SubmitButton = ({content, isDisabled, cssClass, type = 'primary', isLoading}) => {
 
 	return (
@@ -45,8 +65,8 @@ export const SubmitButton = ({content, isDisabled, cssClass, type = 'primary', i
 				{[animationCommonClass]: !isDisabled},
 				{[animationPrimaryClass]: type === 'primary' && !isDisabled},
 				{[animationSecondaryClass]: type === 'secondary' && !isDisabled},
-				cssClass,
 				{[disabledPrimaryClass]: isDisabled},
+				cssClass,
 			)}
 			type="submit"
 			disabled={isDisabled}

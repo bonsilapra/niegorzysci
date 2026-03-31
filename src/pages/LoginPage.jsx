@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {useNavigate} from 'react-router';
 import {supabase} from '../lib/supabase';
-import {SubmitButton} from '../components/Buttons';
+import {SubmitButton, NavButtonSimple} from '../components/Buttons';
 
 export default function LoginPage() {
 	const navigate = useNavigate();
@@ -65,6 +65,9 @@ export default function LoginPage() {
 					content="Potwierdź"
 					isDisabled={isSubmitDisabled()}
 					isLoading={isLoading}
+				/>
+				<NavButtonSimple
+					path="/"
 				/>
 			</form>
 		</>
