@@ -2,6 +2,7 @@ import {useState} from 'react';
 import {useNavigate} from 'react-router';
 import {supabase} from '../lib/supabase';
 import {SubmitButton, NavButtonSimple} from '../components/Buttons';
+import {UserInput} from '../components/Inputs';
 
 export default function LoginPage() {
 	const navigate = useNavigate();
@@ -29,8 +30,9 @@ export default function LoginPage() {
 		if (error) {
 			alert(error.error_description || error.message);
 			setIsLoading(false);
+		} else {
+			navigate('/events');
 		}
-		navigate('/events');
 	};
 
 	const isSubmitDisabled = () =>
@@ -39,10 +41,10 @@ export default function LoginPage() {
 
 	return (
 		<>
-			<h1 className="text-2xl font-bold pb-4">Zaloguj się</h1>
+			<h1 className="text-2xl font-bold pb-8">Zaloguj się</h1>
 			<form className="flex flex-col" onSubmit={handleLogin}>
-				<label htmlFor="email">Email:</label>
-				<input
+				<UserInput
+					label="Email:"
 					id="email"
 					type="email"
 					name="email"
@@ -50,9 +52,10 @@ export default function LoginPage() {
 					value={form.email}
 					required={true}
 					onChange={handleChange}
+					isDisabled={isLoading}
 				/>
-				<label htmlFor="password">Hasło:</label>
-				<input
+				<UserInput
+					label="Hasło:"
 					id="password"
 					type="password"
 					name="password"
@@ -60,6 +63,8 @@ export default function LoginPage() {
 					value={form.password}
 					required={true}
 					onChange={handleChange}
+					isDisabled={isLoading}
+					cssClass="mb-10!"
 				/>
 				<SubmitButton
 					content="Potwierdź"
