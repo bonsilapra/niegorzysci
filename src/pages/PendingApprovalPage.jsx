@@ -1,5 +1,6 @@
 import {useNavigate} from 'react-router';
 import {useAuth} from '../context/AppContext';
+import {ActionButton} from '../components/Buttons';
 
 export default function PendingApprovalPage() {
 	const {refreshProfile, profile} = useAuth();
@@ -13,16 +14,15 @@ export default function PendingApprovalPage() {
 	};
 
 	return (
-		<div className="min-h-screen flex items-center justify-center bg-slate-100 p-6">
-			<div className="w-full max-w-md rounded-2xl bg-white p-8 shadow">
-				<h1 className="text-2xl font-bold">Weryfikujemy Cię :)</h1>
-				<button
-					role="button"
-					onClick={() => refreshData()}
-				>
-					Odśwież
-				</button>
-			</div>
-		</div>
+		<>
+			<h1 className="text-2xl font-bold mb-10">
+				Weryfikujemy Cię :)
+			</h1>
+			<ActionButton
+				content="Odśwież"
+				onClick={() => refreshData()}
+				action="button"
+			/>
+		</>
 	);
 }
