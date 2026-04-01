@@ -3,6 +3,7 @@ import {useNavigate} from 'react-router';
 import {supabase} from '../lib/supabase';
 import {SubmitButton, NavButtonSimple} from '../components/Buttons';
 import {UserInput} from '../components/Inputs';
+import {toast} from '../lib/toasts';
 
 export default function LoginPage() {
 	const navigate = useNavigate();
@@ -28,7 +29,10 @@ export default function LoginPage() {
 			password: form.password,
 		});
 		if (error) {
-			alert(error.error_description || error.message);
+			toast({
+				content: error.error_description || error.message,
+				type: 'error',
+			});
 			setIsLoading(false);
 		} else {
 			navigate('/events');

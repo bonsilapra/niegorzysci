@@ -3,6 +3,7 @@ import {supabase} from '../lib/supabase';
 import {ConfirmEmail} from '../components/ConfirmEmail';
 import {UserInput} from '../components/Inputs';
 import {SubmitButton, NavButtonSimple} from '../components/Buttons';
+import {toast} from '../lib/toasts';
 
 export default function SignupPage() {
 	const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +35,10 @@ export default function SignupPage() {
 			},
 		});
 		if (error) {
-			alert(error.error_description || error.message);
+			toast({
+				content: error.error_description || error.message,
+				type: 'error',
+			});
 			setIsConfirmShown(false);
 		} else {
 			setIsConfirmShown(true);
