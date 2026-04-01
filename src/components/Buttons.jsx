@@ -3,14 +3,14 @@ import cx from 'classnames';
 import {Loader} from './Loader';
 
 const btnCommonClass = 'self-center flex justify-center items-center md:w-3/4 w-full h-16 rounded-md ';
-const btnPrimaryClass = 'text-secondary-100 p-3 bg-linear-to-t from-primary-500 to-primary-400';
-const btnSecondaryClass = 'text-primary-1000 p-3 bg-linear-to-t from-secondary-400 to-secondary-300';
+const btnPrimaryClass = 'text-primary-0 p-3 bg-linear-to-t from-primary-700 to-primary-400';
+const btnSecondaryClass = 'text-primary-0 p-3 bg-linear-to-t from-secondary-600 to-secondary-400';
 
 const animationCommonClass = 'bg-linear-to-t transition delay-50 duration-400 ease-in-out hover:shadow-md hover:scale-103 hover:bg-linear-to-t ';
-const animationPrimaryClass = 'from-primary-500 to-primary-400 hover:from-primary-600 hover:to-primary-500';
-const animationSecondaryClass = 'from-secondary-400 to-secondary-300 hover:from-secondary-500 hover:to-secondary-400';
+const animationPrimaryClass = 'hover:from-primary-600 hover:to-primary-400';
+const animationSecondaryClass = 'hover:from-secondary-500 hover:to-secondary-400';
 
-const disabledPrimaryClass = 'bg-primary-100 text-primary-300';
+const disabledPrimaryClass = 'bg-primary-200 text-primary-400';
 
 const simpleClass = 'self-center flex justify-center items-center md:w-3/4 w-full h-8 text-primary-600 mt-5 hover:underline hover:decoration-primary-400';
 
