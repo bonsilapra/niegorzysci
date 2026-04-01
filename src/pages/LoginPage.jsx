@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {useNavigate} from 'react-router';
 import {supabase} from '../lib/supabase';
-import {SubmitButton, NavButtonSimple} from '../components/Buttons';
+import {ActionButton, NavButtonSimple} from '../components/Buttons';
 import {UserInput} from '../components/Inputs';
 import {toast} from '../lib/toasts';
 
@@ -70,7 +70,7 @@ export default function LoginPage() {
 					isDisabled={isLoading}
 					cssClass="mb-10!"
 				/>
-				<SubmitButton
+				<ActionButton
 					content="Potwierdź"
 					isDisabled={isSubmitDisabled()}
 					isLoading={isLoading}

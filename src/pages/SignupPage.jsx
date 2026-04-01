@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {supabase} from '../lib/supabase';
 import {ConfirmEmail} from '../components/ConfirmEmail';
 import {UserInput} from '../components/Inputs';
-import {SubmitButton, NavButtonSimple} from '../components/Buttons';
+import {ActionButton, NavButtonSimple} from '../components/Buttons';
 import {toast} from '../lib/toasts';
 
 export default function SignupPage() {
@@ -88,7 +88,7 @@ export default function SignupPage() {
 					isDisabled={isLoading}
 					cssClass="mb-10!"
 				/>
-				<SubmitButton
+				<ActionButton
 					content="Wyślij email z kodem potwierdzającym"
 					isDisabled={isLoading || isConfirmShown}
 					isLoading={isLoading}

@@ -54,7 +54,14 @@ export const NavButtonSimple = ({content = 'Wstecz', path, cssClass}) => {
 };
 
 
-export const SubmitButton = ({content, isDisabled, cssClass, type = 'primary', isLoading}) => {
+export const ActionButton = ({
+	content,
+	isDisabled,
+	cssClass,
+	type = 'primary',
+	isLoading,
+	onClick,
+}) => {
 
 	return (
 		<button
@@ -68,8 +75,9 @@ export const SubmitButton = ({content, isDisabled, cssClass, type = 'primary', i
 				{[disabledPrimaryClass]: isDisabled},
 				cssClass,
 			)}
-			type="submit"
+			type={onClick ? 'button' : 'submit'}
 			disabled={isDisabled}
+			onClick={onClick}
 		>
 			{isLoading
 				? <Loader />

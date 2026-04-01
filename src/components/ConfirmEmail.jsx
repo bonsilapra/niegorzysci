@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {useNavigate} from 'react-router';
 import {supabase} from '../lib/supabase';
 import {UserInput} from './Inputs';
-import {SubmitButton} from './Buttons';
+import {ActionButton} from './Buttons';
 
 export const ConfirmEmail = ({email}) => {
 	const navigate = useNavigate();
@@ -41,7 +41,7 @@ export const ConfirmEmail = ({email}) => {
 					isDisabled={isLoading}
 					cssClass="mb-10!"
 				/>
-				<SubmitButton
+				<ActionButton
 					content="Potwierdź"
 					isDisabled={isLoading}
 					isLoading={isLoading}
