@@ -33,9 +33,12 @@
 	margin: 10px auto;
 	position: relative;
 	background: currentColor;
-	color: #FFF;
+	color: var(--color-primary-0);
 	box-sizing: border-box;
 	animation: animloader 0.3s 0.3s linear infinite alternate;
+}
+.loader-dark {
+	color: var(--color-primary-600);
 }
 .loader::after, .loader::before {
 	content: '';
