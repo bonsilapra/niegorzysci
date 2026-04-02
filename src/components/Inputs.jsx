@@ -13,7 +13,7 @@ export const UserInput = ({
 	cssClass,
 }) => {
 	const inputDefault = 'border-primary-300 bg-white';
-	const inputFocus = 'focus:border-primary-500 focus:bg-primary-0';
+	const inputFocus = 'focus:border-primary-500 focus:bg-primary-100';
 	const inputActive = 'active:border-primary-600 active:bg-primary-200';
 
 	return (
@@ -29,7 +29,13 @@ export const UserInput = ({
 				type={type}
 				name={name}
 				placeholder={placeholder}
-				className={cx('p-2 mb-5 border-2 rounded-md', inputDefault, inputFocus, inputActive, cssClass)}
+				className={cx('p-2 mb-5 border-2 rounded-md',
+					inputDefault,
+					inputFocus,
+					inputActive,
+					{'bg-primary-100! text-primary-400!': isDisabled},
+					cssClass,
+				)}
 				value={value}
 				required={isRequired}
 				onChange={onChange}

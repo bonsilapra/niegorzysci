@@ -13,8 +13,8 @@ export const Layout = ({children}) => {
 		? 'bg-linear-to-b from-primary-0 to-primary-300'
 		: 'bg-[url(/img/background.webp)] relative';
 
-	const beforeLoginContainer = 'w-full md:w-2/3 max-w-md rounded-2xl bg-primary-0 flex flex-col p-6 shadow-xl text-primary-600 text-xl';
-	const afterLoginContainer = 'w-3/4 max-w-md p-6';
+	const beforeLoginContainer = 'w-full md:w-2/3 max-w-md rounded-2xl bg-primary-0 flex flex-col p-6 shadow-xl text-primary-600 text-xl my-2';
+	const afterLoginContainer = 'flex-1 w-full md:w-7/8 max-w-5xl';
 
 	return (
 		<div className={`${backgroundStyle} flex flex-col min-h-screen bg-cover bg-center`}>
