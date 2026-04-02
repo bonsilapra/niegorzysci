@@ -20,8 +20,7 @@ export default function PendingApprovalPage() {
 			</h1>
 			<ActionButton
 				content="Odśwież"
-				onClick={() => refreshData()}
-				action="button"
+				onClick={refreshData}
 			/>
 		</>
 	);
