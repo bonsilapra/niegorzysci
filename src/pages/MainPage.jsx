@@ -3,9 +3,10 @@ export default function MainPage() {
 
 	return (
 		<>
-			<h1 className="text-2xl font-bold pb-8 self-center">
+			<h1 className="text-2xl font-bold pb-4">
 				Hej!
 			</h1>
+			<p className="pb-8">Zapraszamy na przygodę!</p>
 			<NavButton
 				content="Zaloguj się"
 				path="/login"
