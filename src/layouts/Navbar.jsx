@@ -23,8 +23,15 @@ export const Navbar = () => {
 	);
 
 	return (
-		<header className={cx('flex items-center bg-primary-0 h-16', {hidden: !isReady})}>
-			<nav className="absolute left-1/2 -translate-x-1/2 flex gap-7">
+		<header className={cx('relative flex items-center bg-primary-0 h-16', {hidden: !isReady})}>
+			<div className="mr-auto ml-3 flex items-center">
+				<img
+					src="/img/Logo-short.webp"
+					alt="Logo"
+					className="h-10"
+				/>
+			</div>
+			<nav className="absolute left-1/2 -translate-x-1/2 hidden md:flex gap-7">
 				{isApproved &&
 					<NavLink to="/events" className={navLinkClassName}>
 						Rajdy
