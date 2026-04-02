@@ -1,9 +1,11 @@
 import {NavLink, useNavigate} from 'react-router';
+import cx from 'classnames';
 import {useAuth} from '../context/AppContext';
+import {ActionButton} from '../components/Buttons';
 
 export const Navbar = () => {
 	const navigate = useNavigate();
-	const {signOut, isAdmin, profile} = useAuth();
+	const {signOut, isAdmin, profile, isApproved, isReady} = useAuth();
 
 	const handleSignout = async() => {
 		try {
@@ -15,17 +17,19 @@ export const Navbar = () => {
 		}
 	};
 
-	const navLinkClassName = ({isActive}) =>
-		[
-			isActive ? 'text-red' : 'text-black',
-		].join(' ');
+	const navLinkClassName = ({isActive}) => cx('text-xl font-medium text-primary-600 underline-offset-8',
+		'hover:text-primary-800 hover:underline',
+		{'underline decoration-3 font-semibold text-primary-400': isActive},
+	);
 
 	return (
-		<header className="bg-primary">
-			<nav className="flex items-center gap-2">
-				<NavLink to="/events" className={navLinkClassName}>
-					Rajdy
-				</NavLink>
+		<header className={cx('flex items-center bg-primary-0 h-16', {hidden: !isReady})}>
+			<nav className="absolute left-1/2 -translate-x-1/2 flex gap-7">
+				{isApproved &&
+					<NavLink to="/events" className={navLinkClassName}>
+						Rajdy
+					</NavLink>
+				}
 				{isAdmin && (
 					<>
 						<NavLink to="/admin/events/new" className={navLinkClassName}>
@@ -37,17 +41,16 @@ export const Navbar = () => {
 					</>
 				)}
 			</nav>
-			<div>
-				<p>
-					{profile?.nick}
+			<div className="ml-auto mr-3 flex items-center">
+				<p className="me-2">
 					{profile?.email}
 				</p>
-				<button
-					type="button"
+				<ActionButton
+					content="Wyloguj"
 					onClick={handleSignout}
-				>
-					Wyloguj
-				</button>
+					type="secondary"
+					cssClass="p-2! h-10!"
+				/>
 			</div>
 		</header>
 	);
