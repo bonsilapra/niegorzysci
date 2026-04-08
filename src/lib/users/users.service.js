@@ -1,0 +1,16 @@
+import {supabase} from '../supabase';
+
+export const fetchAllUsers = async() => {
+	const {data, error} = await supabase
+		.from('profiles')
+		.select('id, email, nick, role, approval_status, created_at')
+		.eq('role', 'user')
+		.order('approval_status', {ascending: false})
+		.order('created_at', {ascending: false});
+
+	if (error) {
+		throw new Error(error.message);
+	}
+
+	return data ?? [];
+};
