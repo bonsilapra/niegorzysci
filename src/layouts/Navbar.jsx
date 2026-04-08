@@ -71,6 +71,7 @@ export const Navbar = () => {
 				</p>
 				<Button
 					content="Wyloguj"
+					size="small"
 					onClick={handleSignout}
 					type="secondary"
 					cssClass="ms-2! p-2! h-10! min-w-20"
@@ -158,6 +159,7 @@ const BurgerMenu = ({
 							</p>
 							<Button
 								content="Wyloguj"
+								size="small"
 								onClick={handleSignout}
 								type="secondary"
 								cssClass="p-2! h-10! max-w-25"

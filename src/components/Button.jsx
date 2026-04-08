@@ -7,6 +7,8 @@ const buttonBaseClass =
 
 const simpleClass = 'h-8 text-primary-600 mt-5 hover:underline hover:decoration-primary-400';
 
+const smallClass = 'p-2! h-10! text-base';
+
 const buttonVariantClass = {
 	primary: {
 		base: 'text-primary-0 bg-linear-to-t from-primary-700 to-primary-400',
@@ -30,6 +32,7 @@ const animatedClass =
 
 const getButtonClassName = ({
 	type = 'primary',
+	size,
 	isDisabled = false,
 	simple = false,
 	cssClass,
@@ -50,6 +53,7 @@ const getButtonClassName = ({
 		isDisabled ? variant.disabled : variant.base,
 		!isDisabled && animatedClass,
 		!isDisabled && variant.hover,
+		{[smallClass]: size === 'small'},
 		cssClass,
 	);
 };
@@ -59,6 +63,7 @@ export const Button = ({
 	path,
 	onClick,
 	type = 'primary',
+	size,
 	isDisabled = false,
 	isLoading = false,
 	simple = false,
@@ -66,6 +71,7 @@ export const Button = ({
 }) => {
 	const classes = getButtonClassName({
 		type,
+		size,
 		isDisabled,
 		simple,
 		cssClass,

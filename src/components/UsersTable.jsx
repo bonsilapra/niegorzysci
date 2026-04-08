@@ -86,6 +86,7 @@ const ActionCell = ({userId, status}) => {
 		{status !== 'approved' &&
 			<Button
 				content="Aktywuj"
+				size="small"
 				isDisabled={updatingUserId}
 				onClick={() => approveUser(userId)}
 				cssClass="p-2! h-10! w-25!"
@@ -94,6 +95,7 @@ const ActionCell = ({userId, status}) => {
 		{status !== 'rejected' &&
 			<Button
 				content="Deaktywuj"
+				size="small"
 				isDisabled={updatingUserId}
 				onClick={() => rejectUser(userId)}
 				type="danger"
