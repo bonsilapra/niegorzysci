@@ -1,6 +1,8 @@
 import dayjs from 'dayjs';
 import cx from 'classnames';
+import {useUsers} from '../context/UsersContext';
 import {dateFormat} from '../lib/constants';
+import {ActionButton} from '../components/Buttons';
 
 export const UsersTable = ({users}) => {
 	if (!users || !users.length) {
@@ -15,7 +17,6 @@ export const UsersTable = ({users}) => {
 
 	return (
 		<div className="min-w-full flex justify-center mt-10">
-
 			<table className="bg-white">
 				<thead>
 					<tr className="border-b-3 border-primary-300">
@@ -53,6 +54,10 @@ const UserRow = ({user}) => {
 			<RowItem value={user.email} />
 			<RowItem value={user.approval_status} />
 			<RowItem value={user.created_at} type="date" />
+			<ActionCell
+				userId={user.id}
+				status={user.approval_status}
+			/>
 		</tr>
 	);
 };
@@ -67,5 +72,18 @@ const RowItem = ({value, type = 'text'}) => {
 
 	return <td className={cx('py-3 px-5', {'text-yellow-500 font-bold': isPending})}>
 		{content}
+	</td>;
+};
+
+const ActionCell = ({userId, status}) => {
+	const {approveUser, updatingUserId} = useUsers();
+
+	return <td className={cx('p-3')}>
+		<ActionButton
+			content="Aktywuj"
+			isDisabled={updatingUserId || status === 'approved'}
+			onClick={() => approveUser(userId)}
+			cssClass="p-2! h-10! w-25!"
+		/>
 	</td>;
 };

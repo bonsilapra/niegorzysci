@@ -24,3 +24,16 @@ export const fetchUser = async(userId) => {
 
 	return {data: data ?? [], error};
 };
+
+export const approveUser = async(userId) => {
+	const {error} = await supabase
+		.from('profiles')
+		.update({approval_status: 'approved'})
+		.eq('id', userId);
+
+	if (error) {
+		throw new Error(error.message);
+	}
+
+	return;
+};
