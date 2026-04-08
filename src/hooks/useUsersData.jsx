@@ -1,5 +1,5 @@
 import {useState, useCallback, useEffect} from 'react';
-import {fetchAllUsers, approveUser} from '../lib/users/users.service';
+import {fetchAllUsers, approveUser, rejectUser} from '../lib/users/users.service';
 import {toast} from '../lib/toasts';
 
 export const useUsersData = () => {
@@ -42,7 +42,30 @@ export const useUsersData = () => {
 		} catch (error) {
 			console.error(error);
 			toast({
-				content: 'Nie można pobrać aktywowac użytkownika',
+				content: 'Nie można aktywować użytkownika',
+				type: 'error',
+			});
+		} finally {
+			setUpdatingUserId(null);
+		}
+	}, []);
+
+	const handleRejectUser = useCallback(async(userId) => {
+		try {
+			setUpdatingUserId(userId);
+			await rejectUser(userId);
+
+			setUsers((prevUsers) =>
+				prevUsers.map((user => {
+					return user.id === userId
+						? {...user, approval_status: 'rejected'}
+						: user;
+				}
+				)));
+		} catch (error) {
+			console.error(error);
+			toast({
+				content: 'Nie można deaktywować użytkownika',
 				type: 'error',
 			});
 		} finally {
@@ -55,5 +78,6 @@ export const useUsersData = () => {
 		isLoading,
 		updatingUserId,
 		approveUser: handleApproveUser,
+		rejectUser: handleRejectUser,
 	};
 };

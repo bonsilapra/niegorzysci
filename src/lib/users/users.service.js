@@ -37,3 +37,16 @@ export const approveUser = async(userId) => {
 
 	return;
 };
+
+export const rejectUser = async(userId) => {
+	const {error} = await supabase
+		.from('profiles')
+		.update({approval_status: 'rejected'})
+		.eq('id', userId);
+
+	if (error) {
+		throw new Error(error.message);
+	}
+
+	return;
+};

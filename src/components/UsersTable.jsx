@@ -17,7 +17,7 @@ export const UsersTable = ({users}) => {
 
 	return (
 		<div className="min-w-full flex justify-center mt-10">
-			<table className="bg-white">
+			<table className="bg-white rounded-lg">
 				<thead>
 					<tr className="border-b-3 border-primary-300">
 						<HeaderItem content="Nick" />
@@ -69,14 +69,18 @@ const RowItem = ({value, type = 'text'}) => {
 	}
 
 	const isPending = type === 'text' && value === 'pending';
+	const isRejected = type === 'text' && value === 'rejected';
 
-	return <td className={cx('py-3 px-5', {'text-yellow-500 font-bold': isPending})}>
+	return <td className={cx('py-3 px-5', {
+		'text-yellow-500 font-bold': isPending,
+		'text-red-500': isRejected,
+	})}>
 		{content}
 	</td>;
 };
 
 const ActionCell = ({userId, status}) => {
-	const {approveUser, updatingUserId} = useUsers();
+	const {approveUser, updatingUserId, rejectUser} = useUsers();
 
 	return <td className={cx('p-3 flex gap-3')}>
 		{status !== 'approved' &&
@@ -85,6 +89,15 @@ const ActionCell = ({userId, status}) => {
 				isDisabled={updatingUserId}
 				onClick={() => approveUser(userId)}
 				cssClass="p-2! h-10! w-25!"
+			/>
+		}
+		{status !== 'rejected' &&
+			<Button
+				content="Deaktywuj"
+				isDisabled={updatingUserId}
+				onClick={() => rejectUser(userId)}
+				type="danger"
+				cssClass="p-2! h-10! w-30!"
 			/>
 		}
 	</td>;
