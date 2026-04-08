@@ -6,6 +6,7 @@ import PendingApprovalPage from './pages/PendingApprovalPage';
 import EventsPage from './pages/EventsPage';
 import EventDetailsPage from './pages/EventDetailsPage';
 import AdminEventFormPage from './pages/AdminEventFormPage';
+import AdminUsersPage from './pages/AdminUsersPage';
 import {AdminRoute} from './components/routeGuards/AdminRoute';
 import {AuthBootstrap} from './components/routeGuards/AuthBootstrap';
 import {PendingRoute} from './components/routeGuards/PendingRoute';
@@ -41,6 +42,7 @@ function App() {
 				<Route element={<AdminRoute />}>
 					<Route path="/admin/events/new" element={<AdminEventFormPage />} />
 					<Route path="/admin/events/:id/edit" element={<AdminEventFormPage />} />
+					<Route path="/admin/users" element={<AdminUsersPage />} />
 				</Route>
 
 				<Route path="*" element={<Navigate to="/login" replace />} />
