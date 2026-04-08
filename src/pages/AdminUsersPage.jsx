@@ -20,14 +20,14 @@ function AdminUsersPageContent() {
 
 	return (
 		<>
-			<h1 className="text-2xl font-bold">Użytkownicy</h1>
-			<div className="flex justify-end">
+			<div className="flex justify-between mb-5">
+				<h1 className="text-2xl font-bold">Użytkownicy</h1>
 				<Button
 					content="Odśwież"
 					size="small"
 					isDisabled={isLoading}
 					onClick={reloadUsers}
-					cssClass="w-25! mb-3"
+					cssClass="w-25!"
 				/>
 			</div>
 			<UsersTable users={users} />
