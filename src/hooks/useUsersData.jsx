@@ -79,5 +79,6 @@ export const useUsersData = () => {
 		updatingUserId,
 		approveUser: handleApproveUser,
 		rejectUser: handleRejectUser,
+		reloadUsers: loadUsers,
 	};
 };
