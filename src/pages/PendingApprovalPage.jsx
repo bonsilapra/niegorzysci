@@ -1,6 +1,6 @@
 import {useNavigate} from 'react-router';
 import {useAuth} from '../context/AppContext';
-import {ActionButton} from '../components/Buttons';
+import {Button} from '../components/Button';
 
 export default function PendingApprovalPage() {
 	const {refreshProfile, profile} = useAuth();
@@ -18,7 +18,7 @@ export default function PendingApprovalPage() {
 			<h1 className="text-2xl font-bold mb-10">
 				Weryfikujemy Cię :)
 			</h1>
-			<ActionButton
+			<Button
 				content="Odśwież"
 				onClick={refreshData}
 			/>

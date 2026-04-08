@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {NavLink, useNavigate} from 'react-router';
 import cx from 'classnames';
 import {useAuth} from '../context/AppContext';
-import {ActionButton} from '../components/Buttons';
+import {Button} from '../components/Button';
 
 const NAV_ITEMS = {
 	events: {
@@ -69,7 +69,7 @@ export const Navbar = () => {
 				<p className="me-2 hidden lg:flex">
 					{profile?.email}
 				</p>
-				<ActionButton
+				<Button
 					content="Wyloguj"
 					onClick={handleSignout}
 					type="secondary"
@@ -156,7 +156,7 @@ const BurgerMenu = ({
 							<p className="mb-3 break-all">
 								{profile?.email}
 							</p>
-							<ActionButton
+							<Button
 								content="Wyloguj"
 								onClick={handleSignout}
 								type="secondary"

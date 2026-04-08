@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {useNavigate} from 'react-router';
 import {supabase} from '../lib/supabase';
-import {ActionButton, NavButtonSimple} from '../components/Buttons';
+import {Button} from '../components/Button';
 import {UserInput} from '../components/Inputs';
 import {toast} from '../lib/toasts';
 
@@ -70,13 +70,14 @@ export default function LoginPage() {
 					isDisabled={isLoading}
 					cssClass="mb-10!"
 				/>
-				<ActionButton
+				<Button
 					content="Potwierdź"
 					isDisabled={isSubmitDisabled()}
 					isLoading={isLoading}
 				/>
-				<NavButtonSimple
+				<Button
 					path="/"
+					simple
 				/>
 			</form>
 		</>

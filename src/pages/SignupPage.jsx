@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {supabase} from '../lib/supabase';
 import {ConfirmEmail} from '../components/ConfirmEmail';
 import {UserInput} from '../components/Inputs';
-import {ActionButton, NavButtonSimple} from '../components/Buttons';
+import {Button} from '../components/Button';
 import {toast} from '../lib/toasts';
 import {isEmpty} from '../lib/isEmpty';
 
@@ -112,7 +112,7 @@ export default function SignupPage() {
 					isDisabled={isLoading || isConfirmShown}
 					cssClass="mb-10!"
 				/>
-				<ActionButton
+				<Button
 					content="Wyślij email z kodem potwierdzającym"
 					isDisabled={isEmailButtonDisabled}
 					isLoading={isLoading}
@@ -121,8 +121,9 @@ export default function SignupPage() {
 			{isConfirmShown &&
 				<ConfirmEmail email={form.email}/>
 			}
-			<NavButtonSimple
+			<Button
 				path="/"
+				simple
 			/>
 		</>
 	);

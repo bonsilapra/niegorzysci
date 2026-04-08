@@ -1,4 +1,4 @@
-import {NavButton} from '../components/Buttons';
+import {Button} from '../components/Button';
 export default function MainPage() {
 
 	return (
@@ -7,14 +7,14 @@ export default function MainPage() {
 				Hej!
 			</h1>
 			<p className="pb-8">Zapraszamy na przygodę!</p>
-			<NavButton
+			<Button
 				content="Zaloguj się"
 				path="/login"
 			/>
 			<p className="my-5 self-center">
 				lub
 			</p>
-			<NavButton
+			<Button
 				content="Zarejestruj się"
 				path="/signup"
 				type="secondary"

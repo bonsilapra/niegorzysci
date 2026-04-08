@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import cx from 'classnames';
 import {useUsers} from '../context/UsersContext';
 import {dateFormat} from '../lib/constants';
-import {ActionButton} from '../components/Buttons';
+import {Button} from '../components/Button';
 
 export const UsersTable = ({users}) => {
 	if (!users || !users.length) {
@@ -78,12 +78,14 @@ const RowItem = ({value, type = 'text'}) => {
 const ActionCell = ({userId, status}) => {
 	const {approveUser, updatingUserId} = useUsers();
 
-	return <td className={cx('p-3')}>
-		<ActionButton
-			content="Aktywuj"
-			isDisabled={updatingUserId || status === 'approved'}
-			onClick={() => approveUser(userId)}
-			cssClass="p-2! h-10! w-25!"
-		/>
+	return <td className={cx('p-3 flex gap-3')}>
+		{status !== 'approved' &&
+			<Button
+				content="Aktywuj"
+				isDisabled={updatingUserId}
+				onClick={() => approveUser(userId)}
+				cssClass="p-2! h-10! w-25!"
+			/>
+		}
 	</td>;
 };
