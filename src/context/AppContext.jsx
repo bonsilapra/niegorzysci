@@ -1,5 +1,6 @@
 import {createContext, useContext, useEffect, useMemo, useState} from 'react';
 import {supabase} from '../lib/supabase';
+import {fetchUser} from '../lib/users/users.service';
 
 const AuthContext = createContext(null);
 
@@ -12,11 +13,7 @@ export function AuthProvider({children}) {
 	const [isProfileReady, setIsProfileReady] = useState(false);
 
 	const loadProfile = async(userId) => {
-		const {data, error} = await supabase
-			.from('profiles')
-			.select('id, email, nick, role, approval_status')
-			.eq('id', userId)
-			.single();
+		const {data, error} = await fetchUser(userId);
 
 		if (error) {
 			console.error('Błąd podczas pobierania profilu:', error.message);

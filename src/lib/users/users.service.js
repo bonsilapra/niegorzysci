@@ -14,3 +14,13 @@ export const fetchAllUsers = async() => {
 
 	return data ?? [];
 };
+
+export const fetchUser = async(userId) => {
+	const {data, error} = await supabase
+		.from('profiles')
+		.select('id, email, nick, role, approval_status')
+		.eq('id', userId)
+		.single();
+
+	return {data: data ?? [], error};
+};
