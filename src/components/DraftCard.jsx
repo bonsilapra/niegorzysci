@@ -40,7 +40,7 @@ export const DraftCard = ({
 					showModal={showModal}
 					setShowModal={setShowModal}
 					draftId={id}
-					handleDeleteDraft={handleDeleteDraft}
+					handleDeleteDraft={() => handleDeleteDraft({draftId: id})}
 				/>
 			</div>
 		</div>

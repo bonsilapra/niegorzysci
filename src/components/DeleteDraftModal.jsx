@@ -5,6 +5,7 @@ export const DeleteDraftModal = ({
 	showModal,
 	setShowModal,
 	draftId,
+	navigate,
 	handleDeleteDraft,
 }) => {
 	return (
@@ -19,7 +20,7 @@ export const DeleteDraftModal = ({
 				<div className="flex gap-5">
 					<Button
 						content="Usuń"
-						onClick={() => handleDeleteDraft(draftId)}
+						onClick={() => handleDeleteDraft({draftId, navigate})}
 						type="danger"
 					/>
 					<Button

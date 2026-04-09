@@ -6,6 +6,7 @@ import {useAuth} from '../context/AppContext';
 import {UserInput} from '../components/Inputs';
 import {Button} from '../components/Button';
 import {Loader} from '../components/Loader';
+import {DeleteDraftModal} from '../components/DeleteDraftModal';
 import {useDrafts} from '../hooks/useDrafts';
 import {toast} from '../lib/toasts';
 import {isEmpty} from '../lib/isEmpty';
@@ -19,19 +20,21 @@ const emptyDraft = {
 
 export default function AdminEventFormPage() {
 	const {id} = useParams();
-	const {handleAddDraft, loadDraft, isLoadingDraft} = useDrafts();
+	const isExistingDraft = !!id;
+	const {handleAddDraft, loadDraft, isLoadingDraft, handleDeleteDraft} = useDrafts();
 
 	const navigate = useNavigate();
 	const {profile} = useAuth();
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [draft, setDraft] = useState(emptyDraft);
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-	const title = id ? 'Edytuj rajd' : 'Dodaj rajd';
+	const title = isExistingDraft ? 'Edytuj rajd' : 'Dodaj rajd';
 
 	useEffect(() => {
 		const init = async() => {
-			if (!id) {
+			if (!isExistingDraft) {
 				setDraft(emptyDraft);
 				return;
 			}
@@ -67,7 +70,7 @@ export default function AdminEventFormPage() {
 		}
 		const cleanDraft = sanitizeDraft(draft);
 
-		if (id) {
+		if (isExistingDraft) {
 			console.log('save existing');
 		} else {
 			await handleAddDraft({
@@ -122,6 +125,26 @@ export default function AdminEventFormPage() {
 		<>
 			<h1 className="text-2xl font-bold mb-5">{title}</h1>
 			<div className="rounded-2xl bg-primary-0 p-6 shadow-xl flex flex-col">
+				{isExistingDraft &&
+					<>
+						<Button
+							content="Usuń"
+							size="small"
+							onClick={() => setShowDeleteModal(true)}
+							type="danger"
+							cssClass="w-30! self-end"
+						/>
+						<DeleteDraftModal
+							showModal={showDeleteModal}
+							setShowModal={setShowDeleteModal}
+							draftId={id}
+							handleDeleteDraft={() => handleDeleteDraft({
+								draftId: id,
+								redirect: true,
+							})}
+						/>
+					</>
+				}
 				<form onSubmit={handlePublish}>
 					<div className="grid grid-cols-2 gap-x-5">
 						{draftItems.map((item) =>

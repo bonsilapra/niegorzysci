@@ -1,8 +1,11 @@
 import {useState, useCallback, useEffect} from 'react';
+import {useNavigate} from 'react-router';
 import {fetchDrafts, fetchDraft, addDraft, deleteDraft} from '../lib/events/events.service';
 import {toast} from '../lib/toasts';
 
 export const useDrafts = () => {
+	const navigate = useNavigate();
+
 	const [drafts, setDrafts] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isLoadingDraft, setIsLoadingDraft] = useState(false);
@@ -61,10 +64,18 @@ export const useDrafts = () => {
 		}
 	};
 
-	const handleDeleteDraft = async(eventId) => {
+	const handleDeleteDraft = async({draftId, redirect = false}) => {
 		try {
-			await deleteDraft(eventId);
-			loadDrafts();
+			await deleteDraft(draftId);
+			if (redirect) {
+				navigate('/admin/events/drafts');
+			} else {
+				loadDrafts();
+			}
+			toast({
+				content: 'Szkic usunięty!',
+				type: 'success',
+			});
 
 		} catch (error) {
 			console.error(error);
