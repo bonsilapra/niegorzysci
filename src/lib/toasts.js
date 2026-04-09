@@ -13,7 +13,7 @@ export const toast = ({content, type = 'success'}) => {
 	return Toastify({
 		text: content,
 		duration: 5000,
-		close: false,
+		close: true,
 		gravity: 'top',
 		position: 'center',
 		stopOnFocus: true,
