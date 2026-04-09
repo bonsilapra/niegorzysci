@@ -89,7 +89,7 @@ const ActionCell = ({userId, status}) => {
 				size="small"
 				isDisabled={updatingUserId}
 				onClick={() => approveUser(userId)}
-				cssClass="p-2! h-10! w-25!"
+				cssClass="w-25!"
 			/>
 		}
 		{status !== 'rejected' &&
@@ -99,7 +99,7 @@ const ActionCell = ({userId, status}) => {
 				isDisabled={updatingUserId}
 				onClick={() => rejectUser(userId)}
 				type="danger"
-				cssClass="p-2! h-10! w-30!"
+				cssClass="w-30!"
 			/>
 		}
 	</td>;

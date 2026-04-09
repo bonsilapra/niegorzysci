@@ -74,7 +74,7 @@ export const Navbar = () => {
 					size="small"
 					onClick={handleSignout}
 					type="secondary"
-					cssClass="ms-2! p-2! h-10! min-w-20"
+					cssClass="ms-2! min-w-20"
 				/>
 			</div>
 			<BurgerMenu
@@ -162,7 +162,7 @@ const BurgerMenu = ({
 								size="small"
 								onClick={handleSignout}
 								type="secondary"
-								cssClass="p-2! h-10! max-w-25"
+								cssClass="max-w-25"
 							/>
 						</div>
 					</div>
