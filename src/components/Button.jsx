@@ -3,11 +3,11 @@ import cx from 'classnames';
 import {Loader} from './Loader';
 
 const buttonBaseClass =
-	'cursor-pointer self-center flex justify-center items-center md:w-3/4 w-full rounded-md';
+	'cursor-pointer self-center flex justify-center items-center md:w-3/4 w-full rounded-md text-xl';
 
 const simpleClass = 'h-8 text-primary-600 mt-5 hover:underline hover:decoration-primary-400';
 
-const smallClass = 'p-2! h-10! text-base';
+const smallClass = 'p-2! h-10! text-base!';
 
 const buttonVariantClass = {
 	primary: {
