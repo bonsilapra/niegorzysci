@@ -27,7 +27,7 @@ export const useUsersData = () => {
 		loadUsers();
 	}, [loadUsers]);
 
-	const handleApproveUser = useCallback(async(userId) => {
+	const handleApproveUser = async(userId) => {
 		try {
 			setUpdatingUserId(userId);
 			await approveUser(userId);
@@ -48,9 +48,9 @@ export const useUsersData = () => {
 		} finally {
 			setUpdatingUserId(null);
 		}
-	}, []);
+	};
 
-	const handleRejectUser = useCallback(async(userId) => {
+	const handleRejectUser = async(userId) => {
 		try {
 			setUpdatingUserId(userId);
 			await rejectUser(userId);
@@ -71,7 +71,7 @@ export const useUsersData = () => {
 		} finally {
 			setUpdatingUserId(null);
 		}
-	}, []);
+	};
 
 	return {
 		users,
