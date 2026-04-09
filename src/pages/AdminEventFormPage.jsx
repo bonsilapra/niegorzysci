@@ -1,29 +1,55 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {useParams, useNavigate} from 'react-router';
 import dayjs from 'dayjs';
+import {inputDateFormat} from '../lib/constants';
 import {useAuth} from '../context/AppContext';
 import {UserInput} from '../components/Inputs';
 import {Button} from '../components/Button';
+import {Loader} from '../components/Loader';
 import {useDrafts} from '../hooks/useDrafts';
 import {toast} from '../lib/toasts';
 import {isEmpty} from '../lib/isEmpty';
 
+const emptyDraft = {
+	title: '',
+	begin: '',
+	end: '',
+	content: '',
+};
+
 export default function AdminEventFormPage() {
 	const {id} = useParams();
+	const {handleAddDraft, loadDraft, isLoadingDraft} = useDrafts();
+
 	const navigate = useNavigate();
 	const {profile} = useAuth();
 
 	const [isLoading, setIsLoading] = useState(false);
-	const {handleAddDraft} = useDrafts();
-
-	const [draft, setDraft] = useState({
-		title: '',
-		begin: '',
-		end: '',
-		content: '',
-	});
+	const [draft, setDraft] = useState(emptyDraft);
 
 	const title = id ? 'Edytuj rajd' : 'Dodaj rajd';
+
+	useEffect(() => {
+		const init = async() => {
+			if (!id) {
+				setDraft(emptyDraft);
+				return;
+			}
+
+			const draft = await loadDraft(id);
+
+			if (draft) {
+				setDraft({
+					title: draft.title ?? '',
+					begin: dayjs(draft.event_begin).format(inputDateFormat) ?? '',
+					end: dayjs(draft.event_end).format(inputDateFormat) ?? '',
+					content: draft.content ?? '',
+				});
+			}
+		};
+
+		init();
+	}, [id, loadDraft]);
 
 	const handleChange = (event) => {
 		const {name, value} = event.target;
@@ -87,6 +113,10 @@ export default function AdminEventFormPage() {
 			content: draft.content.trim(),
 		};
 	};
+
+	if (isLoadingDraft) {
+		return <Loader type="full-page" />;
+	}
 
 	return (
 		<>

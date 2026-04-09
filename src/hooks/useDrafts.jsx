@@ -1,10 +1,11 @@
 import {useState, useCallback, useEffect} from 'react';
-import {fetchDrafts, addDraft, deleteDraft} from '../lib/events/events.service';
+import {fetchDrafts, fetchDraft, addDraft, deleteDraft} from '../lib/events/events.service';
 import {toast} from '../lib/toasts';
 
 export const useDrafts = () => {
 	const [drafts, setDrafts] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
+	const [isLoadingDraft, setIsLoadingDraft] = useState(false);
 
 	const loadDrafts = useCallback(async() => {
 		try {
@@ -26,6 +27,26 @@ export const useDrafts = () => {
 		loadDrafts();
 	}, [loadDrafts]);
 
+	const loadDraft = useCallback(async(draftId) => {
+		if (!draftId) {
+			return;
+		}
+
+		try {
+			setIsLoadingDraft(true);
+			const draft = await fetchDraft(draftId);
+			return draft;
+		} catch (error) {
+			console.error(error);
+			toast({
+				content: 'Coś poszło nie tak, spróbuj ponownie',
+				type: 'error',
+			});
+			return null;
+		} finally {
+			setIsLoadingDraft(false);
+		}
+	}, []);
 
 	const handleAddDraft = async({draft, author}) => {
 		try {
@@ -57,6 +78,8 @@ export const useDrafts = () => {
 	return {
 		drafts,
 		isLoading,
+		loadDraft,
+		isLoadingDraft,
 		handleDeleteDraft,
 		handleAddDraft,
 	};

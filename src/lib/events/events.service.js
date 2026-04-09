@@ -14,6 +14,20 @@ export const fetchDrafts = async() => {
 	return data ?? [];
 };
 
+export const fetchDraft = async(draftId) => {
+	const {data, error} = await supabase
+		.from('events')
+		.select('title, event_begin, event_end, content, logo_path, cover_path')
+		.eq('id', draftId)
+		.single();
+
+	if (error) {
+		throw new Error(error.message);
+	}
+
+	return data ?? [];
+};
+
 export const addDraft = async({draft, author}) => {
 	const {error} = await supabase
 		.from('events')
