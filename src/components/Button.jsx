@@ -3,7 +3,7 @@ import cx from 'classnames';
 import {Loader} from './Loader';
 
 const buttonBaseClass =
-	'self-center flex justify-center items-center md:w-3/4 w-full rounded-md';
+	'cursor-pointer self-center flex justify-center items-center md:w-3/4 w-full rounded-md';
 
 const simpleClass = 'h-8 text-primary-600 mt-5 hover:underline hover:decoration-primary-400';
 
