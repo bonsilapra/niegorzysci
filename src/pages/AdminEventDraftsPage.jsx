@@ -1,10 +1,14 @@
 import {Button} from '../components/Button';
 import {DraftCard} from '../components/DraftCard';
+import {Loader} from '../components/Loader';
 import {useDrafts} from '../hooks/useDrafts';
 
 export default function AdminEventDraftsPage() {
-	const {drafts, handleDeleteDraft} = useDrafts();
+	const {drafts, isLoading, handleDeleteDraft} = useDrafts();
 
+	if (isLoading) {
+		return <Loader type="full-page" />;
+	}
 	return (
 		<>
 			<h1 className="text-2xl font-bold mb-5">Szkice</h1>
