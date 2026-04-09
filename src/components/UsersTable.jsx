@@ -17,7 +17,7 @@ export const UsersTable = ({users}) => {
 
 	return (
 		<div className="w-full flex justify-center">
-			<table className="bg-white rounded-lg w-full">
+			<table className="bg-white rounded-xl shadow-xl w-full">
 				<thead>
 					<tr className="border-b-3 border-primary-300">
 						<HeaderItem content="Nick" />
