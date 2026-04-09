@@ -10,8 +10,8 @@ const NAV_ITEMS = {
 		path: '/events',
 	},
 	add_event: {
-		label: 'Dodaj rajd',
-		path: '/admin/events/new',
+		label: 'Szkice',
+		path: '/admin/events/drafts',
 	},
 	users: {
 		label: 'Użytkownicy',
