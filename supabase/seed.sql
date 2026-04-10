@@ -4,7 +4,7 @@ SET session_replication_role = replica;
 -- PostgreSQL database dump
 --
 
--- \restrict hUqexjuAeRVyDJB7Qv4voacQJafCluGsuKXiNxRUZSPuqO0OglYgHXTmS4jAhUD
+-- \restrict CtVTlIqK5Q4WRnbFA8n5hce71meBDlQRAiazgopb3ibWFi1EVWns5K6yNVp5eEe
 
 -- Dumped from database version 17.6
 -- Dumped by pg_dump version 17.6
@@ -24,6 +24,7 @@ SET row_security = off;
 --
 -- Data for Name: audit_log_entries; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
 --
+
 
 
 --
@@ -174,12 +175,8 @@ INSERT INTO "public"."profiles" ("id", "email", "nick", "role", "approval_status
 -- Data for Name: events; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-
-
---
--- Data for Name: event_images; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
+INSERT INTO "public"."events" ("id", "title", "event_begin", "event_end", "content", "status", "logo_path", "cover_path", "created_by", "created_at", "updated_at") VALUES
+	('818eb9b4-c588-4c85-be2a-11c00e39f228', 'Góry 1234', '2026-04-23 00:00:00+00', '2026-04-25 00:00:00+00', 'Testowy opis Góry 1234', 'draft', NULL, NULL, '11dabc72-c7ce-40bc-a7dd-bedbb6e9b027', '2026-04-10 09:39:28.301707+00', '2026-04-10 09:39:28.301707+00');
 
 
 --
@@ -250,13 +247,6 @@ SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 4, true);
 
 
 --
--- Name: event_images_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('"public"."event_images_id_seq"', 1, false);
-
-
---
 -- Name: hooks_id_seq; Type: SEQUENCE SET; Schema: supabase_functions; Owner: supabase_functions_admin
 --
 
@@ -267,6 +257,6 @@ SELECT pg_catalog.setval('"supabase_functions"."hooks_id_seq"', 1, false);
 -- PostgreSQL database dump complete
 --
 
--- \unrestrict hUqexjuAeRVyDJB7Qv4voacQJafCluGsuKXiNxRUZSPuqO0OglYgHXTmS4jAhUD
+-- \unrestrict CtVTlIqK5Q4WRnbFA8n5hce71meBDlQRAiazgopb3ibWFi1EVWns5K6yNVp5eEe
 
 RESET ALL;
