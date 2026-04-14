@@ -52,16 +52,7 @@ export const useDrafts = () => {
 	}, []);
 
 	const handleAddDraft = async({draft, author}) => {
-		try {
-			await addDraft({draft, author});
-
-		} catch (error) {
-			console.error(error);
-			toast({
-				content: 'Nie można dodać szkicu',
-				type: 'error',
-			});
-		}
+		await addDraft({draft, author});
 	};
 
 	const handleDeleteDraft = async({draftId, redirect = false}) => {

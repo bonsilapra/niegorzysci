@@ -3,7 +3,7 @@ import {useParams, useNavigate} from 'react-router';
 import dayjs from 'dayjs';
 import {inputDateFormat} from '../lib/constants';
 import {useAuth} from '../context/AppContext';
-import {UserInput} from '../components/Inputs';
+import {UserInput, ImageInput} from '../components/Inputs';
 import {Button} from '../components/Button';
 import {Loader} from '../components/Loader';
 import {DeleteDraftModal} from '../components/DeleteDraftModal';
@@ -28,6 +28,8 @@ export default function AdminEventFormPage() {
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [draft, setDraft] = useState(emptyDraft);
+	const [logoFile, setLogoFile] = useState(null);
+	const [coverFile, setCoverFile] = useState(null);
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
 	const title = isExistingDraft ? 'Edytuj rajd' : 'Dodaj rajd';
@@ -73,13 +75,30 @@ export default function AdminEventFormPage() {
 		if (isExistingDraft) {
 			console.log('save existing');
 		} else {
-			await handleAddDraft({
-				draft: cleanDraft,
-				author: profile.id,
-			});
+			try {
+				await handleAddDraft({
+					draft: {
+						...cleanDraft,
+						logoFile,
+						coverFile,
+					},
+					author: profile.id,
+				});
+				toast({
+					content: 'Szkic został dodany',
+					type: 'success',
+				});
+			} catch (error) {
+				console.error(error);
+				toast({
+					content: error.message || 'Nie można dodać szkicu',
+					type: 'error',
+				});
+			} finally {
+				navigate('/admin/events/drafts');
+				setIsLoading(false);
+			}
 		}
-		setIsLoading(false);
-		navigate('/admin/events/drafts');
 	};
 
 	const handlePublish = () => {
@@ -162,6 +181,16 @@ export default function AdminEventFormPage() {
 								cssLayout={item.type === 'date' ? 'col-span-full sm:col-span-1' : 'col-span-full'}
 							/>,
 						)}
+						<ImageInput
+							label="Logo"
+							onChange={(e) => setLogoFile(e.target.files?.[0] ?? null)}
+							cssClass="col-span-full sm:col-span-1"
+						/>
+						<ImageInput
+							label="Cover"
+							onChange={(e) => setCoverFile(e.target.files?.[0] ?? null)}
+							cssClass="col-span-full sm:col-span-1"
+						/>
 					</div>
 					<div className="grid grid-cols-2 gap-x-5 gap-y-5 sm:gap-y-0 justify-items-center">
 						<Button

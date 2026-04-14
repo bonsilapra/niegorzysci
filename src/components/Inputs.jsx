@@ -62,3 +62,24 @@ export const UserInput = ({
 		</div>
 	);
 };
+
+export const ImageInput = ({
+	label,
+	onChange,
+	cssClass,
+}) => {
+	return (
+		<div className={cx('flex flex-col mb-5', cssClass)}>
+			<label className="mb-2">
+				{label}:
+			</label>
+			<input
+				id="fileUpload"
+				type="file"
+				className="file:mr-4 file:py-1 file:px-2 file:rounded-md file:border-2 file:bg-white file:text-primary-600 hover:file:bg-primary-200 hover:file:cursor-pointer"
+				accept="image/png,image/jpeg,image/webp"
+				onChange={onChange}
+			/>
+		</div>
+	);
+};

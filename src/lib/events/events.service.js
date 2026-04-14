@@ -1,4 +1,5 @@
 import {supabase} from '../supabase';
+import {buildEventImagePath} from '../../lib/uploadImgHelper';
 
 export const fetchDrafts = async() => {
 	const {data, error} = await supabase
@@ -29,7 +30,7 @@ export const fetchDraft = async(draftId) => {
 };
 
 export const addDraft = async({draft, author}) => {
-	const {error} = await supabase
+	const {data: event, error: insertError} = await supabase
 		.from('events')
 		.insert({
 			title: draft.title,
@@ -38,10 +39,37 @@ export const addDraft = async({draft, author}) => {
 			content: draft.content,
 			status: 'draft',
 			created_by: author,
-		});
+		})
+		.select('id')
+		.single();
 
-	if (error) {
-		throw new Error(error.message);
+	if (insertError) {
+		throw new Error(insertError.message);
+	}
+
+	let logoPath = null;
+	let coverPath = null;
+
+	if (draft.logoFile) {
+		logoPath = await uploadEventImage(event.id, 'logo', draft.logoFile);
+	}
+
+	if (draft.coverFile) {
+		coverPath = await uploadEventImage(event.id, 'cover', draft.coverFile);
+	}
+
+	if (logoPath || coverPath) {
+		const {error: updateError} = await supabase
+			.from('events')
+			.update({
+				logo_path: logoPath,
+				cover_path: coverPath,
+			})
+			.eq('id', event.id);
+
+		if (updateError) {
+			throw new Error(updateError.message);
+		}
 	}
 
 	return;
@@ -59,4 +87,26 @@ export const deleteDraft = async(eventId) => {
 	}
 
 	return;
+};
+
+const uploadEventImage = async(eventId, kind, file) => {
+	let path;
+	try {
+		path = buildEventImagePath(eventId, kind, file);
+	} catch (error) {
+		throw new Error(error.message);
+	}
+
+	const {error} = await supabase.storage
+		.from('event-images')
+		.upload(path, file, {
+			upsert: true,
+			contentType: file.type,
+		});
+
+	if (error) {
+		throw new Error(error.message);
+	}
+
+	return path;
 };
