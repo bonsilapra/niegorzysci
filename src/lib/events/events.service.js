@@ -118,3 +118,10 @@ const uploadEventImage = async(eventId, kind, file) => {
 
 	return path;
 };
+
+export const getEventsImage = async(path) => {
+	const imgUrl = await path
+		? supabase.storage.from('event-images').getPublicUrl(path).data.publicUrl
+		: null;
+	return imgUrl;
+};

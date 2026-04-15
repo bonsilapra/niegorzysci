@@ -7,6 +7,7 @@ import {UserInput, ImageInput} from '../components/Inputs';
 import {Button} from '../components/Button';
 import {Loader} from '../components/Loader';
 import {DeleteDraftModal} from '../components/DeleteDraftModal';
+import {DraftImage} from '../components/DraftImage';
 import {useDrafts} from '../hooks/useDrafts';
 import {toast} from '../lib/toasts';
 import {isEmpty} from '../lib/isEmpty';
@@ -18,6 +19,8 @@ const emptyDraft = {
 	content: '',
 	logo_path: null,
 	cover_path: null,
+	logoUrl: null,
+	coverUrl: null,
 };
 
 export default function AdminEventFormPage() {
@@ -53,6 +56,8 @@ export default function AdminEventFormPage() {
 					content: draft.content ?? '',
 					logo_path: draft.logo_path ?? null,
 					cover_path: draft.cover_path ?? null,
+					logoUrl: draft.logoUrl ?? null,
+					coverUrl: draft.coverUrl ?? null,
 				});
 			}
 		};
@@ -185,18 +190,30 @@ export default function AdminEventFormPage() {
 								cssLayout={item.type === 'date' ? 'col-span-full sm:col-span-1' : 'col-span-full'}
 							/>,
 						)}
-						<ImageInput
-							label="Logo"
-							onChange={(e) => setLogoFile(e.target.files?.[0] ?? null)}
-							cssClass="col-span-full sm:col-span-1"
-						/>
-						<ImageInput
-							label="Cover"
-							onChange={(e) => setCoverFile(e.target.files?.[0] ?? null)}
-							cssClass="col-span-full sm:col-span-1"
-						/>
+						{draft.logoUrl && draft.logo_path
+							? <DraftImage
+								imgUrl={draft.logoUrl}
+								label="Logo"
+							/>
+							: <ImageInput
+								label="Logo"
+								onChange={(e) => setLogoFile(e.target.files?.[0] ?? null)}
+								cssClass="col-span-full sm:col-span-1"
+							/>
+						}
+						{draft.coverUrl && draft.cover_path
+							? <DraftImage
+								imgUrl={draft.coverUrl}
+								label="Okładka"
+							/>
+							: <ImageInput
+								label="Okładka"
+								onChange={(e) => setCoverFile(e.target.files?.[0] ?? null)}
+								cssClass="col-span-full sm:col-span-1"
+							/>
+						}
 					</div>
-					<div className="grid grid-cols-2 gap-x-5 gap-y-5 sm:gap-y-0 justify-items-center">
+					<div className="grid grid-cols-2 gap-x-5 gap-y-5 sm:gap-y-0 mt-4 justify-items-center">
 						<Button
 							content="Zapisz szkic"
 							type="secondary"

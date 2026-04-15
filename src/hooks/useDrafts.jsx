@@ -1,6 +1,12 @@
 import {useState, useCallback, useEffect} from 'react';
 import {useNavigate} from 'react-router';
-import {fetchDrafts, fetchDraft, addDraft, deleteDraft} from '../lib/events/events.service';
+import {
+	fetchDrafts,
+	fetchDraft,
+	addDraft,
+	deleteDraft,
+	getEventsImage,
+} from '../lib/events/events.service';
 import {toast} from '../lib/toasts';
 
 export const useDrafts = () => {
@@ -38,7 +44,11 @@ export const useDrafts = () => {
 		try {
 			setIsLoadingDraft(true);
 			const draft = await fetchDraft(draftId);
-			return draft;
+
+			const logoUrl = await getEventsImage(draft.logo_path);
+			const coverUrl = await getEventsImage(draft.cover_path);
+
+			return {...draft, logoUrl, coverUrl};
 		} catch (error) {
 			console.error(error);
 			toast({
