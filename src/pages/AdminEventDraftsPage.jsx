@@ -24,6 +24,7 @@ export default function AdminEventDraftsPage() {
 							title={draft.title}
 							updatedTimestamp={draft.updated_at}
 							handleDeleteDraft={handleDeleteDraft}
+							imgPaths={[draft.logo_path, draft.cover_path]}
 						/>,
 					)
 				}

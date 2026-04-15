@@ -9,6 +9,7 @@ export const DraftCard = ({
 	title,
 	updatedTimestamp,
 	handleDeleteDraft,
+	imgPaths,
 }) => {
 	const [showModal, setShowModal] = useState(false);
 
@@ -39,8 +40,7 @@ export const DraftCard = ({
 				<DeleteDraftModal
 					showModal={showModal}
 					setShowModal={setShowModal}
-					draftId={id}
-					handleDeleteDraft={() => handleDeleteDraft({draftId: id})}
+					handleDeleteDraft={() => handleDeleteDraft({draftId: id, imgPaths})}
 				/>
 			</div>
 		</div>

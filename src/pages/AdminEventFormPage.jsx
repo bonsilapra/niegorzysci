@@ -16,6 +16,8 @@ const emptyDraft = {
 	begin: '',
 	end: '',
 	content: '',
+	logo_path: null,
+	cover_path: null,
 };
 
 export default function AdminEventFormPage() {
@@ -49,6 +51,8 @@ export default function AdminEventFormPage() {
 					begin: dayjs(draft.event_begin).format(inputDateFormat) ?? '',
 					end: dayjs(draft.event_end).format(inputDateFormat) ?? '',
 					content: draft.content ?? '',
+					logo_path: draft.logo_path ?? null,
+					cover_path: draft.cover_path ?? null,
 				});
 			}
 		};
@@ -156,9 +160,9 @@ export default function AdminEventFormPage() {
 						<DeleteDraftModal
 							showModal={showDeleteModal}
 							setShowModal={setShowDeleteModal}
-							draftId={id}
 							handleDeleteDraft={() => handleDeleteDraft({
 								draftId: id,
+								imgPaths: [draft.logo_path, draft.cover_path],
 								redirect: true,
 							})}
 						/>

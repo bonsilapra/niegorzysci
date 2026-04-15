@@ -55,9 +55,12 @@ export const useDrafts = () => {
 		await addDraft({draft, author});
 	};
 
-	const handleDeleteDraft = async({draftId, redirect = false}) => {
+	const handleDeleteDraft = async({draftId, imgPaths, redirect = false}) => {
 		try {
-			await deleteDraft(draftId);
+			await deleteDraft({
+				eventId: draftId,
+				paths: imgPaths,
+			});
 			if (redirect) {
 				navigate('/admin/events/drafts');
 			} else {

@@ -75,7 +75,15 @@ export const addDraft = async({draft, author}) => {
 	return;
 };
 
-export const deleteDraft = async(eventId) => {
+export const deleteDraft = async({eventId, paths}) => {
+	const {error: storageError} = await supabase.storage
+		.from('event-images')
+		.remove(paths);
+
+	if (storageError) {
+		throw new Error(storageError.message);
+	}
+
 	const {error} = await supabase
 		.from('events')
 		.delete()
