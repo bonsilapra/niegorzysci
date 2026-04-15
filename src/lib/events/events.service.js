@@ -76,13 +76,7 @@ export const addDraft = async({draft, author}) => {
 };
 
 export const deleteDraft = async({eventId, paths}) => {
-	const {error: storageError} = await supabase.storage
-		.from('event-images')
-		.remove(paths);
-
-	if (storageError) {
-		throw new Error(storageError.message);
-	}
+	await deleteImages({paths: paths, eventId});
 
 	const {error} = await supabase
 		.from('events')
@@ -95,6 +89,40 @@ export const deleteDraft = async({eventId, paths}) => {
 	}
 
 	return;
+};
+
+export const deleteImages = async({paths, eventId}) => {
+	const {error: storageError} = await supabase.storage
+		.from('event-images')
+		.remove(paths);
+
+	if (storageError) {
+		throw new Error(storageError.message);
+	}
+
+	let imageToRemove;
+
+	if (paths.length === 2) {
+		// when event is deleted there is no point to delete paths from columns
+		// since the whole row will be removed
+		return;
+	} else if (paths[0].includes('cover')) {
+		imageToRemove = {cover_path: null};
+	} else if (paths[0].includes('logo')) {
+		imageToRemove = {logo_path: null};
+	} else {
+		return;
+	}
+
+	const {error: updateError} = await supabase
+		.from('events')
+		.update(imageToRemove)
+		.eq('id', eventId);
+
+	if (updateError) {
+		throw new Error(updateError.message);
+	}
+
 };
 
 const uploadEventImage = async(eventId, kind, file) => {

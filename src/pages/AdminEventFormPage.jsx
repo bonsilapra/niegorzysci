@@ -11,6 +11,7 @@ import {DraftImage} from '../components/DraftImage';
 import {useDrafts} from '../hooks/useDrafts';
 import {toast} from '../lib/toasts';
 import {isEmpty} from '../lib/isEmpty';
+import {deleteImages} from '../lib/events/events.service';
 
 const emptyDraft = {
 	title: '',
@@ -26,7 +27,12 @@ const emptyDraft = {
 export default function AdminEventFormPage() {
 	const {id} = useParams();
 	const isExistingDraft = !!id;
-	const {handleAddDraft, loadDraft, isLoadingDraft, handleDeleteDraft} = useDrafts();
+	const {
+		handleAddDraft,
+		loadDraft,
+		isLoadingDraft,
+		handleDeleteDraft,
+	} = useDrafts();
 
 	const navigate = useNavigate();
 	const {profile} = useAuth();
@@ -107,6 +113,31 @@ export default function AdminEventFormPage() {
 				navigate('/admin/events/drafts');
 				setIsLoading(false);
 			}
+		}
+	};
+
+	const handleDeleteImage = async({path, eventId}) => {
+		try {
+			await deleteImages({paths: [path], eventId});
+			const isDeletingLogo = path === draft.logo_path;
+			const isDeletingCover = path === draft.cover_path;
+			setDraft((prev) => ({
+				...prev,
+				logo_path: isDeletingLogo ? null : draft.logo_path,
+				cover_path: isDeletingCover ? null : draft.cover_path,
+				logoUrl: isDeletingLogo ? null : draft.logoUrl,
+				coverUrl: isDeletingCover ? null : draft.coverUrl,
+			}));
+			toast({
+				content: 'Obrazek usunięty!',
+				type: 'success',
+			});
+		} catch (error) {
+			console.error(error);
+			toast({
+				content: 'Nie można usunąć obrazka',
+				type: 'error',
+			});
 		}
 	};
 
@@ -194,6 +225,11 @@ export default function AdminEventFormPage() {
 							? <DraftImage
 								imgUrl={draft.logoUrl}
 								label="Logo"
+								handleDeleteImage={() => handleDeleteImage({
+									path: draft.logo_path,
+									eventId: id,
+								})}
+								onImageChange={(e) => setLogoFile(e.target.files?.[0] ?? null)}
 							/>
 							: <ImageInput
 								label="Logo"
@@ -205,6 +241,11 @@ export default function AdminEventFormPage() {
 							? <DraftImage
 								imgUrl={draft.coverUrl}
 								label="Okładka"
+								handleDeleteImage={() => handleDeleteImage({
+									path: draft.cover_path,
+									eventId: id,
+								})}
+								onImageChange={(e) => setCoverFile(e.target.files?.[0] ?? null)}
 							/>
 							: <ImageInput
 								label="Okładka"

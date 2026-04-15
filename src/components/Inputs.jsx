@@ -70,9 +70,11 @@ export const ImageInput = ({
 }) => {
 	return (
 		<div className={cx('flex flex-col mb-5', cssClass)}>
-			<label className="mb-2">
-				{label}:
-			</label>
+			{label &&
+				<label className="mb-2">
+					{label}:
+				</label>
+			}
 			<input
 				id="fileUpload"
 				type="file"
