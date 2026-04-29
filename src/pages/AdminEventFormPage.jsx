@@ -32,6 +32,7 @@ export default function AdminEventFormPage() {
 		loadDraft,
 		isLoadingDraft,
 		handleDeleteDraft,
+		handleModifyDraft,
 	} = useDrafts();
 
 	const navigate = useNavigate();
@@ -113,6 +114,7 @@ export default function AdminEventFormPage() {
 						coverUrl,
 					}));
 				}
+				await handleModifyDraft({draft, draftId: id});
 			} catch (error) {
 				toast({
 					content: error.message || 'Nie można zapisać zmian',

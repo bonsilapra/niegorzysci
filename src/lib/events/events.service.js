@@ -101,6 +101,25 @@ export const uploadImage = async({logoFile, coverFile, eventId, isEditing}) => {
 	};
 };
 
+export const modifyDraft = async({draft, draftId}) => {
+	const {error} = await supabase
+		.from('events')
+		.update({
+			title: draft.title,
+			event_begin: draft.begin,
+			event_end: draft.end,
+			content: draft.content,
+		})
+		.eq('id', draftId);
+
+	if (error) {
+		throw new Error(error.message);
+	}
+
+	return;
+};
+
+
 export const deleteDraft = async({eventId, paths}) => {
 	await deleteImages({paths: paths, eventId});
 

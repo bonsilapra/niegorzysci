@@ -6,6 +6,7 @@ import {
 	addDraft,
 	deleteDraft,
 	getEventsImage,
+	modifyDraft,
 } from '../lib/events/events.service';
 import {toast} from '../lib/toasts';
 
@@ -90,6 +91,23 @@ export const useDrafts = () => {
 		}
 	};
 
+	const handleModifyDraft = async({draft, draftId}) => {
+		try {
+			await modifyDraft({draft, draftId});
+			toast({
+				content: 'Zmiany zapisane!',
+				type: 'success',
+			});
+
+		} catch (error) {
+			console.error(error);
+			toast({
+				content: 'Nie można zapisać',
+				type: 'error',
+			});
+		}
+	};
+
 	return {
 		drafts,
 		isLoading,
@@ -97,5 +115,6 @@ export const useDrafts = () => {
 		isLoadingDraft,
 		handleDeleteDraft,
 		handleAddDraft,
+		handleModifyDraft,
 	};
 };
