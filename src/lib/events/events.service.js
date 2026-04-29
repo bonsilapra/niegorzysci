@@ -47,15 +47,25 @@ export const addDraft = async({draft, author}) => {
 		throw new Error(insertError.message);
 	}
 
+	await uploadImage({
+		logoFile: draft.logoFile,
+		coverFile: draft.coverFile,
+		eventId: event.id,
+	});
+
+	return;
+};
+
+export const uploadImage = async({logoFile, coverFile, eventId, isEditing}) => {
 	let logoPath = null;
 	let coverPath = null;
 
-	if (draft.logoFile) {
-		logoPath = await uploadEventImage(event.id, 'logo', draft.logoFile);
+	if (logoFile) {
+		logoPath = await uploadEventImage(eventId, 'logo', logoFile);
 	}
 
-	if (draft.coverFile) {
-		coverPath = await uploadEventImage(event.id, 'cover', draft.coverFile);
+	if (coverFile) {
+		coverPath = await uploadEventImage(eventId, 'cover', coverFile);
 	}
 
 	if (logoPath || coverPath) {
@@ -65,14 +75,30 @@ export const addDraft = async({draft, author}) => {
 				logo_path: logoPath,
 				cover_path: coverPath,
 			})
-			.eq('id', event.id);
+			.eq('id', eventId);
 
 		if (updateError) {
 			throw new Error(updateError.message);
 		}
 	}
 
-	return;
+	let logoUrl;
+	let coverUrl;
+
+	if (isEditing) {
+		if (logoPath) {
+			logoUrl = await getEventsImage(logoPath);
+		} else if (coverPath) {
+			coverUrl = await getEventsImage(coverPath);
+		}
+	}
+
+	return {
+		logoPath,
+		coverPath,
+		logoUrl,
+		coverUrl,
+	};
 };
 
 export const deleteDraft = async({eventId, paths}) => {

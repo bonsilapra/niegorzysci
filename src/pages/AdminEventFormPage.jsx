@@ -11,7 +11,7 @@ import {DraftImage} from '../components/DraftImage';
 import {useDrafts} from '../hooks/useDrafts';
 import {toast} from '../lib/toasts';
 import {isEmpty} from '../lib/isEmpty';
-import {deleteImages} from '../lib/events/events.service';
+import {deleteImages, uploadImage} from '../lib/events/events.service';
 
 const emptyDraft = {
 	title: '',
@@ -88,7 +88,39 @@ export default function AdminEventFormPage() {
 		const cleanDraft = sanitizeDraft(draft);
 
 		if (isExistingDraft) {
-			console.log('save existing');
+			try {
+				if (logoFile) {
+					const {logoPath, logoUrl} = await uploadImage({
+						eventId: id,
+						logoFile,
+						isEditing: true,
+					});
+					setDraft((prev) => ({
+						...prev,
+						logo_path: logoPath,
+						logoUrl,
+						isEditing: true,
+					}));
+				} else if (coverFile) {
+					const {coverPath, coverUrl} = await uploadImage({
+						eventId: id,
+						coverFile,
+						isEditing: true,
+					});
+					setDraft((prev) => ({
+						...prev,
+						cover_path: coverPath,
+						coverUrl,
+					}));
+				}
+			} catch (error) {
+				toast({
+					content: error.message || 'Nie można zapisać zmian',
+					type: 'error',
+				});
+			} finally {
+				setIsLoading(false);
+			}
 		} else {
 			try {
 				await handleAddDraft({
