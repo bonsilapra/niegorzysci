@@ -155,9 +155,13 @@ export default function AdminEventFormPage() {
 
 	const handleDeleteImage = async({path, eventId}) => {
 		try {
-			await deleteImages({paths: [path], eventId});
 			const isDeletingLogo = path === draft.logo_path;
 			const isDeletingCover = path === draft.cover_path;
+			await deleteImages({
+				paths: [path],
+				eventId,
+				type: isDeletingLogo ? 'logo' : 'cover',
+			});
 			setDraft((prev) => ({
 				...prev,
 				logo_path: isDeletingLogo ? null : draft.logo_path,
