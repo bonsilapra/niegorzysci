@@ -40,6 +40,7 @@ export default function AdminEventFormPage() {
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [draft, setDraft] = useState(emptyDraft);
+	const [initialDraft, setInitialDraft] = useState(emptyDraft);
 	const [logoFile, setLogoFile] = useState(null);
 	const [coverFile, setCoverFile] = useState(null);
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -53,19 +54,21 @@ export default function AdminEventFormPage() {
 				return;
 			}
 
-			const draft = await loadDraft(id);
+			const loadedDraft = await loadDraft(id);
 
-			if (draft) {
-				setDraft({
-					title: draft.title ?? '',
-					begin: dayjs(draft.event_begin).format(inputDateFormat) ?? '',
-					end: dayjs(draft.event_end).format(inputDateFormat) ?? '',
-					content: draft.content ?? '',
-					logo_path: draft.logo_path ?? null,
-					cover_path: draft.cover_path ?? null,
-					logoUrl: draft.logoUrl ?? null,
-					coverUrl: draft.coverUrl ?? null,
-				});
+			if (loadedDraft) {
+				const formattedLoadedDraft = {
+					title: loadedDraft.title ?? '',
+					begin: dayjs(loadedDraft.event_begin).format(inputDateFormat) ?? '',
+					end: dayjs(loadedDraft.event_end).format(inputDateFormat) ?? '',
+					content: loadedDraft.content ?? '',
+					logo_path: loadedDraft.logo_path ?? null,
+					cover_path: loadedDraft.cover_path ?? null,
+					logoUrl: loadedDraft.logoUrl ?? null,
+					coverUrl: loadedDraft.coverUrl ?? null,
+				};
+				setDraft(formattedLoadedDraft);
+				setInitialDraft(formattedLoadedDraft);
 			}
 		};
 
@@ -210,6 +213,21 @@ export default function AdminEventFormPage() {
 		};
 	};
 
+	const isSaveDisabled = ({isExistingDraft, draft, initialDraft}) => {
+		if (!isExistingDraft) {
+			return false;
+		}
+		if (initialDraft.title !== draft.title ||
+			initialDraft.content !== draft.content ||
+			initialDraft.begin !== draft.begin ||
+			initialDraft.end !== draft.end
+		) {
+			return false;
+		} else {
+			return true;
+		}
+	};
+
 	if (isLoadingDraft) {
 		return <Loader type="full-page" />;
 	}
@@ -294,7 +312,11 @@ export default function AdminEventFormPage() {
 							type="secondary"
 							isLoading={isLoading}
 							onClick={handleSaveDraft}
-							isDisabled={isLoading}
+							isDisabled={isLoading || isSaveDisabled({
+								isExistingDraft,
+								draft,
+								initialDraft,
+							})}
 							cssClass="sm:w-50! col-span-full sm:col-span-1"
 						/>
 						<Button
