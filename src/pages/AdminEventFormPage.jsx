@@ -124,6 +124,8 @@ export default function AdminEventFormPage() {
 					type: 'error',
 				});
 			} finally {
+				setLogoFile(null);
+				setCoverFile(null);
 				setIsLoading(false);
 			}
 		} else {
@@ -224,7 +226,9 @@ export default function AdminEventFormPage() {
 		if (initialDraft.title !== draft.title ||
 			initialDraft.content !== draft.content ||
 			initialDraft.begin !== draft.begin ||
-			initialDraft.end !== draft.end
+			initialDraft.end !== draft.end ||
+			!!coverFile ||
+			!!logoFile
 		) {
 			return false;
 		} else {
