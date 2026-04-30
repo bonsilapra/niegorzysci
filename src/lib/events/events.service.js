@@ -62,21 +62,25 @@ export const uploadImage = async({logoFile, coverFile, eventId, isEditing}) => {
 
 	if (logoFile) {
 		logoPath = await uploadEventImage(eventId, logoFile);
-	}
-
-	if (coverFile) {
-		coverPath = await uploadEventImage(eventId, coverFile);
-	}
-
-	if (logoPath || coverPath) {
 		const {error: updateError} = await supabase
 			.from('events')
 			.update({
 				logo_path: logoPath,
+			})
+			.eq('id', eventId);
+		if (updateError) {
+			throw new Error(updateError.message);
+		}
+	}
+
+	if (coverFile) {
+		coverPath = await uploadEventImage(eventId, coverFile);
+		const {error: updateError} = await supabase
+			.from('events')
+			.update({
 				cover_path: coverPath,
 			})
 			.eq('id', eventId);
-
 		if (updateError) {
 			throw new Error(updateError.message);
 		}
